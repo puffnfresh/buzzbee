@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>{% block title %}Buzzbee{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery.buzzbee.js"></script>
+    {% block extrahead %}{% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <a href="http://github.com/pufuwozu/buzzbee"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub" /></a>
+
+        <div class="header">
+            <h1>Buzz<span class="highlight">bee</span></h1>
+            <p class="tagline">a Google Buzz plugin for jQuery</p>
+        </div>
+        {% block content %}{% endblock %}
+        <div class="footer">
+            <p>Created by <a href="http://brianmckenna.org/">Brian McKenna</a>.</p>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    try {
+    var pageTracker = _gat._getTracker("UA-52294-4");
+    pageTracker._trackPageview();
+    } catch(err) {}
+    </script>
+</body>
+</html>

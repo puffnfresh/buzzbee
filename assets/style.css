@@ -1,0 +1,116 @@
+body {
+    font-family: sans-serif;
+    padding: 0;
+    margin: 0;
+    background: #fff;
+    color: #333;
+}
+
+a {
+    color: #806d24;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a img {
+    border: none;
+}
+
+.container {
+    width: 40em;
+    margin: 0 auto;
+    padding: 1em 0;
+}
+
+.header {
+    text-shadow: #999 0px 1px 2px;
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.header h1 {
+    font-size: 4em;
+    margin: 0;
+}
+
+h2, h3 {
+    text-shadow: #999 0px 1px 2px;
+}
+
+.header .highlight {
+    color: #ffd947;
+}
+
+.buzz-form {
+    padding-bottom: 0.5em;
+}
+
+.buzz-box {
+    background: #ffd947;
+    padding: 0.5em;
+}
+
+.buzz-box .entry {
+    padding: 0.5em;
+    color: #000;
+    border-bottom: 1px solid #d9b83c;
+}
+
+.buzz-box .details {
+    clear: both;
+    padding-top: 0.25em;
+    font-size: 0.9em;
+}
+
+.buzz-box a {
+    color: #403612;
+}
+
+.buzz-box .date {
+    color: #bfa335;
+}
+
+.buzz-box .image {
+    float: left;
+    padding: 0.5em 0.5em 0 0;
+}
+
+pre {
+    padding: 1em;
+}
+
+code, .code {
+    background: #000;
+    color: #ccc;
+    overflow: hidden;
+}
+
+.footer {
+    text-align: center;
+}
+
+dd {
+    margin-bottom: 1em;
+}
+
+code a {
+    color: #d9b83c;
+}
+
+code .comment {
+    color: #777;
+}
+
+code .string {
+    color: #99f;
+}
+
+code .name {
+    color:  #c66;
+}
+
+code .attribute {
+    color:  #f66;
+}

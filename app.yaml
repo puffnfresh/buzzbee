@@ -1,0 +1,15 @@
+application: jquery-buzzbee
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /jquery.buzzbee.js
+  static_files: static/jquery.buzzbee.js
+  upload: static/jquery.buzzbee.js
+
+- url: /assets
+  static_dir: assets
+
+- url: /.*
+  script: buzzbee_site.py
