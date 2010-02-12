@@ -1,7 +1,7 @@
 Buzzbee
 =======
 
-Buzzbee is a service to embed Google Buzz in your website using jQuery.
+Buzzbee is a jQuery plugin and web service to embed Google Buzz in your website.
 
 You can see an example at
 [http://jquery-buzzbee.appspot.com/](http://jquery-buzzbee.appspot.com/)
