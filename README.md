@@ -46,7 +46,7 @@ ID and an optional options object containing:
 
 `error`
 
-A string to display if Buzzbee can't retreive any Buzz from Google. The default
+A string to display if Buzzbee can't retrieve any Buzz from Google. The default
 is `'Unable to connect.'`.
 
 `empty`
