@@ -119,7 +119,7 @@
     // John Resig's "Pretty Date"
     $.fn.buzzbee.prettyDate = function(time) {
         var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
-            diff = (((new Date()).getTime() - date.getTime()) / 1000),
+            diff = (((new Date()).getTime() - date.getTime()) / 1000) + (date.getTimezoneOffset() * 60),
             day_diff = Math.floor(diff / 86400);
 
         if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
