@@ -93,11 +93,15 @@
                                              .find('> link[rel="alternate"]')
                                              .attr('href');
 
-                    var permalink = $('<a></a>')
-                                        .attr('href', alternate_link)
-                                        .appendTo(details);
                     var total = $(this).find('> thr\\:total').text();
-                    permalink.text('(' + total + ' comment' + (total != 1 ? 's' : '') + ')');
+
+                    // Fallback gracefully if XML namespaces can't be found.
+                    if(total.length > 0) {
+                        var permalink = $('<a></a>')
+                                            .attr('href', alternate_link)
+                                            .appendTo(details);
+                        permalink.text('(' + total + ' comment' + (total != 1 ? 's' : '') + ')');
+                    }
 
                     $(details).find('> :gt(0)').before(options.detail_separator);
                 });
