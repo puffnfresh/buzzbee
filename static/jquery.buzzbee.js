@@ -55,12 +55,12 @@
                                        .attr('href', $(this).attr('url'))
                                        .appendTo(media);
 
-                        if(medium == 'image') {
+                        if(medium == 'image' || medium == 'photo') {
                             var player = $(this).find('> media\\:player');
 
                             // See if media needs to be resized.
                             var src = player.attr('url');
-                            if(options.max_media_height > 0 && player.attr('height') > options.max_media_height) {
+                            if(medium == 'photo' || (options.max_media_height > 0 && player.attr('height') > options.max_media_height)) {
                                 src = 'http://jquery-buzzbee.appspot.com/resize/' + options.max_media_height + '/' + escape(src);
                             }
 
@@ -68,6 +68,9 @@
                                           .attr('src', src)
                                           .attr('alt', '')
                                           .appendTo(link);
+                        } else if(medium == 'document') {
+                            var media_title = $(this).find('> media\\:title').text();
+                            link.text(media_title);
                         }
                     });
 
