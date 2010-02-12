@@ -53,6 +53,7 @@ class ResizeHandler(webapp.RequestHandler):
 
             resized_image.put()
 
+        self.response.headers['Cache-Control'] = "max-age=604800"
         self.response.headers['Content-Type'] = "image/png"
         self.response.out.write(resized_image.data)
 
