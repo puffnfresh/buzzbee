@@ -7,28 +7,26 @@
             max_media_height: 120,
             entry_separator: '',
             detail_separator: ' - ',
-            url_prefix: 'http://jquery-buzzbee.appspot.com/feed/',
-            url_suffix: ''
+            server: 'http://jquery-buzzbee.appspot.com/jsonfeed/'
         }, options);
 
+        var buzz_box = this;
         $.ajax({
             type: 'GET',
-            dataType: 'xml',
-            url: options.url_prefix + user + options.url_suffix,
-            context: this,
+            dataType: 'jsonp',
+            url: options.server + user,
             error: function(xhr, status) {
                 $(this).text(options.error);
             },
             success: function(data) {
-                var buzz_box = this;
-                if($(data).find('entry').length == 0) {
+                if(data.length == 0) {
                     $(buzz_box).text(options.empty);
                     return;
                 }
 
                 $(buzz_box).text('');
                 var count = 0;
-                $(data).find('entry').each(function() {
+                $(data).each(function() {
                     count++;
                     if(options.limit > 0 && count > options.limit) {
                         return;
@@ -41,36 +39,60 @@
                     var content = $('<div></div>')
                                       .addClass('content')
                                       .appendTo(entry);
-                    content.html($(this).find('> content').text());
+                    content.html(this.content);
 
                     // Handle media.
-                    $(this).find('> media\\:content').each(function() {
-                        var medium = $(this).attr('medium');
-                        var media = $('<div></div>')
-                                        .addClass('media')
-                                        .addClass(medium)
-                                        .appendTo(content);
+                    $(this.media).each(function() {
+                        var medium = this.medium;
+                        if(this.player || medium == 'document' || medium == 'video') {
+                            var media = $('<div></div>')
+                                            .addClass('media')
+                                            .addClass(medium)
+                                            .appendTo(content);
+                            
+                            var link = $('<a></a>')
+                                           .attr('href', this.url)
+                                           .appendTo(media);
+                            
+                            if(medium == 'image' || medium == 'photo') {
+                                // See if media needs to be resized.
+                                var src = this.player.url;
+                                
+                                if(medium == 'photo' || !this.player.height ||
+                                    (options.max_media_height > 0 && this.player.height > options.max_media_height)) {
+                                    // Resize the image.
+                                    src = 'http://jquery-buzzbee.appspot.com/resize/' + options.max_media_height + '/' + escape(src);
+                                }
+                                
+                                var title = this['title'] ? this.title : '';
 
-                        var link = $('<a></a>')
-                                       .attr('href', $(this).attr('url'))
-                                       .appendTo(media);
+                                $('<img />')
+                                    .attr('src', src)
+                                    .attr('alt', title)
+                                    .attr('title', title)
+                                    .appendTo(link);
+                            } else if(medium == 'video') {
+                                link.attr('href', this.player.url);
 
-                        if(medium == 'image' || medium == 'photo') {
-                            var player = $(this).find('> media\\:player');
-
-                            // See if media needs to be resized.
-                            var src = player.attr('url');
-                            if(medium == 'photo' || (options.max_media_height > 0 && player.attr('height') > options.max_media_height)) {
-                                src = 'http://jquery-buzzbee.appspot.com/resize/' + options.max_media_height + '/' + escape(src);
+                                var youtube_prefix = 'http://www.youtube.com/watch?v=';
+                                
+                                var caption_text = this.title + ' (watch video)';
+                                
+                                if(this.url.indexOf(youtube_prefix) == 0) {
+                                    // If this video is from YouTube, use the YouTube thumbnail.
+                                    var youtube_id = this.url.replace(youtube_prefix, '');
+                                    $('<img />')
+                                        .attr('src', 'http://i.ytimg.com/vi/' + youtube_id + '/default.jpg')
+                                        .attr('alt', caption_text)
+                                        .attr('title', caption_text)
+                                        .appendTo(link);
+                                } else {
+                                    // Otherwise just use a text link.
+                                    link.text(caption_text);
+                                }
+                            } else if(medium == 'document') {
+                                link.text(this.title);
                             }
-
-                            var img = $('<img />')
-                                          .attr('src', src)
-                                          .attr('alt', '')
-                                          .appendTo(link);
-                        } else if(medium == 'document') {
-                            var media_title = $(this).find('> media\\:title').text();
-                            link.text(media_title);
                         }
                     });
 
@@ -78,33 +100,27 @@
                                       .addClass('details')
                                       .appendTo(entry);
 
-                    var profile_url = $(this).find('> author uri').text();
+                    var profile_url = this.author.uri;
                     var title = $('<a></a>')
                                     .addClass('title')
                                     .attr('href', profile_url)
                                     .appendTo(details);
-                    title.html($(this).find('> title').text());
+                    title.html(this.title);
 
                     var updated = $('<span></span>')
                                         .addClass('date')
                                         .appendTo(details);
-                    var time = $(this).find('> updated').text();
-                    var prettyTime = $.fn.buzzbee.prettyDate(time.replace(/\.\d+/g, ''));
-                    updated.text(prettyTime).attr('title', time);
+                                        
+                    var prettyTime = $.fn.buzzbee.prettyDate(this.updated.replace(/\.\d+/g, ''));
+                    updated.text(prettyTime).attr('title', this.updated);
 
-                    var alternate_link = $(this)
-                                             .find('> link[rel="alternate"]')
-                                             .attr('href');
+                    var alternate_link = this.links.alternate;
 
-                    var total = $(this).find('> thr\\:total').text();
-
-                    // Fallback gracefully if XML namespaces can't be found.
-                    if(total.length > 0) {
-                        var permalink = $('<a></a>')
-                                            .attr('href', alternate_link)
-                                            .appendTo(details);
-                        permalink.text('(' + total + ' comment' + (total != 1 ? 's' : '') + ')');
-                    }
+                    var comments = this.comments;
+                    var permalink = $('<a></a>')
+                                        .attr('href', alternate_link)
+                                        .appendTo(details);
+                    permalink.text('(' + comments + ' comment' + (comments != 1 ? 's' : '') + ')');
 
                     $(details).find('> :gt(0)').before(options.detail_separator);
                 });
@@ -122,8 +138,9 @@
             diff = (((new Date()).getTime() - date.getTime()) / 1000) + (date.getTimezoneOffset() * 60),
             day_diff = Math.floor(diff / 86400);
 
-        if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+        if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 ) {
             return;
+        }
 
         return day_diff == 0 && (
                 diff < 60 && "just now" ||

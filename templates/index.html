@@ -23,19 +23,29 @@
     <p>Buzzbee is a jQuery plugin and web service to embed <a href="http://buzz.google.com/">Google Buzz</a> in your website.</p>
 
     <h2>Example</h2>
-    
+
     <p>Type in a Google Buzz user ID and press load (try TechCrunch for example):</p>
-   
+
     <form class="buzz-form" action="#" method="post">
-        <input class="user-id" type="text" size="21" value="" />
-        <input type="submit" value="Load Buzz" />
+        <div>
+            <input class="user-id" type="text" size="21" value="" />
+            <input type="submit" value="Load Buzz" />
+        </div>
     </form>
 
     <div class="buzz-box">You need JavaScript enabled to view this.</div>
-    
-    <p>The code can be as simple as:</p>
-    
+
+    <h2>Usage</h2>
+
+    <p><strong>Update:</strong> Buzzbee no longer requires jQuery 1.4.1 or a browser that supports cross-domain headers!</p>
+
+    <p>Getting started with Buzzbee is as easy as:</p>
+
     <pre class="code"><code>&lt;<span class="name">div</span> <span class="attribute">class</span>=<span class="string">"buzz-box"</span>&gt;Loading...&lt;/<span class="name">div</span>&gt;
+
+&lt;<span class="name">script</span> <span class="attribute">src</span>=<span class="string">"http://jquery-buzzbee.appspot.com/jquery.buzzbee.js"</span>
+    <span class="attribute">type</span>=<span class="string">"text/javascript"&gt;</span>
+&lt;/<span class="name">script</span>&gt;
 
 &lt;<span class="name">script</span> <span class="attribute">type</span>=<span class="string">"text/javascript"</span>&gt;
 $(document).ready(function() {
@@ -45,47 +55,32 @@ $(document).ready(function() {
     $(<span class="string">'.buzz-box'</span>).buzzbee(<span class="string">'example'</span>);
 });
 &lt;/<span class="name">script</span>&gt;</code></pre>
-    
-    <h2>Usage</h2>
 
-    <p>Buzzbee currently requires jQuery 1.4.0 or higher.</p>
-    
-    <p>Cross-domain restrictions may change how you can use Buzzbee.</p>
-    
-    <p>If you are targeting old browsers, you must make sure the Buzz request is performed on the same domain as the JavaScript. The easiest way is to just to directly link to the hosted version of Buzzbee:</p>
-    
-    <pre class="code"><code>&lt;<span class="name">script</span> <span class="attribute">src</span>=<span class="string">"http://jquery-buzzbee.appspot.com/jquery.buzzbee.js"</span>
-    <span class="attribute">type</span>=<span class="string">"text/javascript"&gt;</span>
-&lt;/<span class="name">script</span>&gt;</code></pre>
+    <p>If you would like to host the JavaScript files yourself, you can <a href="http://github.com/pufuwozu/buzzbee/raw/master/static/jquery.buzzbee.js">download the latest JavaScript files from GitHub</a>.</p>
 
-    <p>If you don't like directly linking to JavaScript, you can host it locally (<a href="http://github.com/pufuwozu/buzzbee/raw/master/static/jquery.buzzbee.js">get it here</a>) and require browsers to support <code><a href="https://developer.mozilla.org/en/HTTP_access_control#Access-Control-Allow-Origin">Access-Control-Allow-Origin</a></code> (so far, Firefox 3.5 and IE8).</p>
-    
     <h3>Options</h3>
     <p>The <code>buzzbee</code> function can take two arguments; the first being a Google Profile ID and an optional options object containing:</p>
-    
+
     <dl>
         <dt><code>error</code></dt>
         <dd>A string to display if Buzzbee can't retrieve any Buzz from Google. The default is <code>'Unable to connect.'</code>.</dd>
-        
+
         <dt><code>empty</code></dt>
         <dd>A string to display if Google returns no Buzz. The default is <code>'No available Buzz.'</code>.</dd>
-        
+
         <dt><code>limit</code></dt>
         <dd>The maximum number of entires to display. Use 0 for no limit. The default is <code>10</code>.</dd>
-        
+
         <dt><code>max_media_height</code></dt>
         <dd>The maximum height (in pixels) of media. Use 0 for no limit. The default is <code>120</code>.</dd>
-        
+
         <dt><code>entry_separator</code></dt>
         <dd>An element or string to insert between Buzz entries. The default is empty.</dd>
-        
+
         <dt><code>detail_separator</code></dt>
         <dd>An element or string to insert between entry details (the title, date and comments). The default is <code>' - '</code>.</dd>
-        
-        <dt><code>url_prefix</code></dt>
-        <dd>A string useful for when you want to use a local Buzz proxy. The URL used is <code>url_prefix + user + url_suffix</code> and it must return a Buzz profile feed (like <a href="http://buzz.googleapis.com/feeds/114278565074962089407/public/posted">this</a> one). The default is <code>'http://jquery-buzzbee.appspot.com/feed/'</code></dd>
-        
-        <dt><code>url_suffix</code></dt>
-        <dd>See above. The default is empty.</dd>
+
+        <dt><code>server</code></dt>
+        <dd>A string to use to use for the Google Buzz JSONP request. The URL used is <code>url_prefix + user + '?callback=padding'</code> and it must return a JSONP formatted Buzz profile feed (like <a href="http://jquery-buzzbee.appspot.com/jsonfeed/114278565074962089407?callback=example">this</a> one). The default is <code>'http://jquery-buzzbee.appspot.com/jsonfeed/'</code></dd>
     </dl>
 {% endblock %}

@@ -6,37 +6,31 @@ Buzzbee is a jQuery plugin and web service to embed Google Buzz in your website.
 You can see an example at
 [http://jquery-buzzbee.appspot.com/](http://jquery-buzzbee.appspot.com/)
 
-The code can be as simple as:
+Usage
+-----
+
+Update: Buzzbee no longer requires jQuery 1.4.1 or a browser that supports
+cross-domain headers!
+
+Getting started with Buzzbee is as easy as:
 
     <div class="buzz-box">Loading...</div>
+
+    <script src="http://jquery-buzzbee.appspot.com/jquery.buzzbee.js"
+        type="text/javascript">
+    </script>
 
     <script type="text/javascript">
     $(document).ready(function() {
         // Your profile ID can be found from your profile URL.
         // http://www.google.com/profiles/example#buzz
         // Means the ID is 'example'
-         $('.buzz-box').buzzbee('example');
+        $('.buzz-box').buzzbee('example');
     });
     </script>
 
-Usage
------
-
-Buzzbee currently requires jQuery 1.4.0 or higher.
-
-Cross-domain restrictions may change how you can use Buzzbee.
-
-If you are targeting old browsers, you must make sure the Buzz request is
-performed on the same domain as the JavaScript. The easiest way is to just
-to directly link to the hosted version of Buzzbee:
-
-    <script src="http://jquery-buzzbee.appspot.com/jquery.buzzbee.js"
-        type="text/javascript">
-    </script>
-
-If you don't like directly linking to JavaScript, you can host it locally and
-require browsers to support Access-Control-Allow-Origin (so far, Firefox 3.5 and
-IE8).
+If you would like to host the JavaScript files yourself, you can download the
+latest JavaScript files from GitHub.
 
 Options
 -------
@@ -73,12 +67,9 @@ An element or string to insert between Buzz entries. The default is empty.
 An element or string to insert between entry details (the title, date and
 comments). The default is `' - '`.
 
-`url_prefix`
+`server`
 
-A string useful for when you want to use a local Buzz proxy. The URL used is
-`url_prefix + user + url_suffix` and it must return a Buzz profile feed. The
-default is `'http://jquery-buzzbee.appspot.com/feed/'`
-
-`url_suffix`
-
-See above. The default is empty.
+A string to use to use for the Google Buzz JSONP request. The URL used is
+`url_prefix + user + '?callback=padding'` and it must return a JSONP formatted
+Buzz profile feed. The default is
+`'http://jquery-buzzbee.appspot.com/jsonfeed/'`
