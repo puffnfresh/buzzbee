@@ -9,7 +9,7 @@ You can see an example at
 Usage
 -----
 
-Update: Buzzbee no longer requires jQuery 1.4.1 or a browser that supports
+**Update:** Buzzbee no longer requires jQuery 1.4.1 or a browser that supports
 cross-domain headers!
 
 Getting started with Buzzbee is as easy as:
@@ -50,7 +50,7 @@ Buzz.'`.
 
 `limit`
 
-The maximum number of entires to display. Use 0 for no limit. The default is
+The maximum number of entries to display. Use 0 for no limit. The default is
 `10`.
 
 `max_media_height`
