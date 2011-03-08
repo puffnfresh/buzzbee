@@ -136,9 +136,11 @@
     $.fn.buzzbee.prettyDate = function(time) {
         var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
             diff = (((new Date()).getTime() - date.getTime()) / 1000) + (date.getTimezoneOffset() * 60),
-            day_diff = Math.floor(diff / 86400);
+            day_diff = Math.floor(diff / 86400),
+	    month_diff = Math.floor(day_diff / 30),
+ 	    year_diff = Math.floor(month_diff / 12);
 
-        if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 ) {
+        if ( isNaN(day_diff) || day_diff < 0 ) {
             return "";
         }
 
@@ -150,6 +152,9 @@
                 diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
             day_diff == 1 && "Yesterday" ||
             day_diff < 7 && day_diff + " days ago" ||
-            day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+            day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago" ||
+	    month_diff == 1 && "One month ago" ||
+	    month_diff < 12 && month_diff + " months ago" ||
+	    year_diff + " years ago";
     };
 })(jQuery);
